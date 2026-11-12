@@ -4,6 +4,8 @@
 
 AniVerse is a responsive, client-side React application for discovering anime and building a personal watchlist. It uses the public Kitsu REST API to load anime titles, artwork, synopses, genres, and other available details. Users can search the catalog, filter and sort results, move through paginated results, open a detail page, and save favorites in the browser.
 
+**Public repository:** [angeldesca99-arch/AniListAPI](https://github.com/angeldesca99-arch/AniListAPI)
+
 > This is an unofficial student project. Kitsu is a community-maintained service; AniVerse is not affiliated with Kitsu or the anime rights holders.
 
 The interface uses an obsidian-black foundation, subtle olive glass surfaces, and chartreuse highlights for a focused, high-contrast anime discovery experience.
@@ -19,6 +21,20 @@ The interface uses an obsidian-black foundation, subtle olive glass surfaces, an
 - Save or remove favorites; the watchlist persists in browser LocalStorage across refreshes.
 - Use responsive Home, Discover, Anime Details, and Favorites routes.
 - Access loading, error, and empty states while working with live API data.
+
+## Final project requirements
+
+| Requirement | How AniVerse addresses it |
+| --- | --- |
+| Public GitHub repository | The project is hosted at [angeldesca99-arch/AniListAPI](https://github.com/angeldesca99-arch/AniListAPI). |
+| Branch and pull request workflow | Project changes are developed on feature branches and proposed to `main` through pull requests; see the [GitHub collaboration workflow](#github-collaboration-workflow). |
+| Clear commit history | Use descriptive conventional commit prefixes such as `feat:`, `fix:`, `style:`, and `docs:`. |
+| Reusable React components | The UI is split into functional components, including `Navbar`, `SearchBar`, `AnimeGrid`, `AnimeCard`, `GenreFilter`, `SortDropdown`, `Pagination`, `FavoriteButton`, and shared loading, error, and empty states. |
+| State management | `AnimeContext` shares Discover search and filter state; `FavoritesContext` manages the watchlist and persists it in LocalStorage. |
+| Public REST API and asynchronous fetching | The app fetches live data from Kitsu with the Fetch API and `async`/`await`. It handles loading and request errors; Discover search is debounced and stale results are ignored. |
+| Client-side routing | React Router provides Home, Discover, Anime Details, and Favorites routes; see [Client-side routing](#client-side-routing). |
+| At least three interactive features | AniVerse includes title search, genre/format/status filters, sorting, pagination, and add/remove favorites. |
+| Setup and API documentation | Installation, run/build/lint commands, API endpoint examples, and environment-variable guidance are included below. |
 
 ## Technology
 
