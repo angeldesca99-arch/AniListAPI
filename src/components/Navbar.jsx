@@ -28,6 +28,8 @@ export default function Navbar() {
             </NavLink>
           ))}
         </nav>
+
+        <span className="nav-status">Live Kitsu catalog</span>
       </div>
     </header>
   );

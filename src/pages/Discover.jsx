@@ -104,12 +104,25 @@ export default function Discover() {
       <section className="discover-header">
         <div>
           <span className="eyebrow">Anime library</span>
-          <h1>Discover your next favorite</h1>
+          <h1>Discover anime</h1>
+          <p>Find your next favorite from the Kitsu catalog.</p>
         </div>
-        <div className="results-summary">{totalResults} titles found</div>
+        <div className="results-summary">
+          <strong>{totalResults.toLocaleString()}</strong>
+          <span>titles found</span>
+        </div>
       </section>
 
-      <section className="filter-panel">
+      <section className="filter-panel" aria-label="Search and filter anime">
+        <div className="filter-toolbar">
+          <span className="filter-kicker">Refine your search</span>
+          {(searchQuery || selectedGenre || selectedFormat || selectedStatus || sortBy !== 'POPULARITY_DESC') && (
+            <button type="button" className="secondary-button inline-button" onClick={clearFilters}>
+              Clear filters
+            </button>
+          )}
+        </div>
+
         <SearchBar
           value={searchQuery}
           onChange={(value) => {
@@ -159,12 +172,6 @@ export default function Discover() {
             }}
           />
         </div>
-
-        {(searchQuery || selectedGenre || selectedFormat || selectedStatus || sortBy !== 'POPULARITY_DESC') && (
-          <button type="button" className="secondary-button inline-button" onClick={clearFilters}>
-            Clear filters
-          </button>
-        )}
       </section>
 
       {loading ? (

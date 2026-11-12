@@ -1,4 +1,4 @@
-import { ArrowRight, PlayCircle } from 'lucide-react';
+import { ArrowRight, PlayCircle, Sparkles, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function HeroSection({ anime }) {
@@ -8,18 +8,18 @@ export default function HeroSection({ anime }) {
 
   const title = anime.title?.english || anime.title?.romaji || 'Anime';
   const backgroundImage = anime.bannerImage || anime.coverImage;
+  const coverImage = anime.coverImage || backgroundImage;
 
   return (
     <section
       className="hero-section"
-      style={{
-        backgroundImage: `linear-gradient(90deg, rgba(12, 16, 29, 0.95), rgba(12, 16, 29, 0.3)), url(${backgroundImage})`,
-      }}
+      style={{ '--hero-image': `url(${backgroundImage})` }}
+      aria-labelledby="featured-anime-title"
     >
       <div className="container hero-content">
         <div className="hero-copy">
-          <span className="eyebrow">Featured tonight</span>
-          <h1>{title}</h1>
+          <span className="eyebrow"><Sparkles size={14} /> Featured anime</span>
+          <h1 id="featured-anime-title">{title}</h1>
           <p>{anime.description || 'Explore a popular title with rich story arcs, standout characters, and beloved scores.'}</p>
           <div className="hero-actions">
             <Link to={`/anime/${anime.id}`} className="primary-button">
@@ -30,6 +30,13 @@ export default function HeroSection({ anime }) {
               Browse catalog
               <ArrowRight size={16} />
             </Link>
+          </div>
+        </div>
+        <div className="hero-art">
+          <img src={coverImage} alt={`${title} cover art`} />
+          <div className="hero-art-caption">
+            <span>{anime.averageScore ? `${anime.averageScore}% community score` : 'Featured pick'}</span>
+            <Star size={16} fill="currentColor" />
           </div>
         </div>
       </div>
