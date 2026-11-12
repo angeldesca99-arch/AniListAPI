@@ -129,7 +129,7 @@ git checkout main
 git pull origin main
 git checkout -b feature/api-integration
 git add .
-git commit -m "feat: implement AniList API integration"
+git commit -m "feat: integrate Kitsu REST API"
 git push origin feature/api-integration
 ```
 
@@ -144,7 +144,7 @@ git push origin feature/api-integration
 ## Team Contribution Breakdown
 
 - Team Member 1: homepage, navigation, responsive UI, and visual polish
-- Team Member 2: AniList API integration, search/filter logic, and favorites persistence
+- Team Member 2: Kitsu REST API integration, search/filter logic, and favorites persistence
 - Shared: review, testing, bug fixing, and deployment preparation
 
 ## Notes
