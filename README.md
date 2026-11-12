@@ -143,8 +143,8 @@ git push origin feature/api-integration
 
 ## Team Contribution Breakdown
 
-- Team Member 1: homepage, navigation, responsive UI, and visual polish
-- Team Member 2: Kitsu REST API integration, search/filter logic, and favorites persistence
+- Pair contributions: homepage, navigation, responsive UI, and visual polish
+- Pair contributions: Kitsu REST API integration, search/filter logic, and favorites persistence
 - Shared: review, testing, bug fixing, and deployment preparation
 
 ## Notes
