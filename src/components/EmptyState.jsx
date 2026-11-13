@@ -1,9 +1,16 @@
-export default function EmptyState({ title, message, action }) {
+import { Bookmark, Search, UsersRound } from 'lucide-react';
+
+const icons = { bookmark: Bookmark, search: Search, characters: UsersRound };
+
+export default function EmptyState({ title, message, icon = 'search', action = null }) {
+  const Icon = icons[icon] || Search;
+
   return (
     <div className="empty-state">
-      <h3>{title}</h3>
+      <span className="empty-icon"><Icon size={22} /></span>
+      <h2>{title}</h2>
       <p>{message}</p>
-      {action ? <div className="empty-action">{action}</div> : null}
+      {action}
     </div>
   );
 }

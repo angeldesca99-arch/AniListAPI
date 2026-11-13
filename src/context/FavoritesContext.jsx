@@ -1,64 +1,73 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
+import { FavoritesContext } from './favoriteContextValue';
 
-const FavoritesContext = createContext(null);
-const STORAGE_KEY = 'aniverse-favorites';
+const STORAGE_KEY = 'springfield-lines-favorites';
 
 function readFavorites() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
+    const parsed = stored ? JSON.parse(stored) : [];
+
+    if (!Array.isArray(parsed)) {
+      throw new Error('Saved quotes are not in the expected format.');
+    }
+
+    return {
+      favorites: parsed.filter(
+        (quote) => quote && typeof quote.id === 'string' && typeof quote.text === 'string',
+      ),
+      error: '',
+    };
+  } catch (error) {
+    return {
+      favorites: [],
+      error: `Saved quotes could not be read from this browser: ${error.message}`,
+    };
   }
 }
 
 export function FavoritesProvider({ children }) {
-  const [favorites, setFavorites] = useState(readFavorites);
+  const [initialState] = useState(readFavorites);
+  const [favorites, setFavorites] = useState(initialState.favorites);
+  const [storageError, setStorageError] = useState(initialState.error);
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
-  }, [favorites]);
+  function persistFavorites(nextFavorites) {
+    setFavorites(nextFavorites);
 
-  const addFavorite = (anime) => {
-    setFavorites((current) => {
-      if (current.some((item) => item.id === anime.id)) {
-        return current;
-      }
-
-      return [anime, ...current];
-    });
-  };
-
-  const removeFavorite = (animeId) => {
-    setFavorites((current) => current.filter((item) => item.id !== animeId));
-  };
-
-  const clearFavorites = () => {
-    setFavorites([]);
-  };
-
-  const isFavorite = (animeId) => favorites.some((item) => item.id === animeId);
-
-  const value = useMemo(
-    () => ({
-      favorites,
-      addFavorite,
-      removeFavorite,
-      clearFavorites,
-      isFavorite,
-    }),
-    [favorites],
-  );
-
-  return <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>;
-}
-
-export function useFavorites() {
-  const context = useContext(FavoritesContext);
-
-  if (!context) {
-    throw new Error('useFavorites must be used inside FavoritesProvider');
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextFavorites));
+      setStorageError('');
+    } catch (error) {
+      setStorageError(`Saved quotes could not be stored in this browser: ${error.message}`);
+    }
   }
 
-  return context;
+  function addFavorite(quote) {
+    if (!favorites.some((item) => item.id === quote.id)) {
+      persistFavorites([quote, ...favorites]);
+    }
+  }
+
+  function removeFavorite(quoteId) {
+    persistFavorites(favorites.filter((quote) => quote.id !== quoteId));
+  }
+
+  function clearFavorites() {
+    persistFavorites([]);
+  }
+
+  return (
+    <FavoritesContext.Provider
+      value={{
+        favorites,
+        addFavorite,
+        removeFavorite,
+        clearFavorites,
+        isFavorite: (quoteId) => favorites.some((quote) => quote.id === quoteId),
+        storageError,
+      }}
+    >
+      {children}
+    </FavoritesContext.Provider>
+  );
 }
